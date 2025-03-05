@@ -5,16 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Atom's Links</title>
     
-    <!-- Preconnect to Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
-    <!-- Link to Audiowide, Orbitron, and Sigmar fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Orbitron:wght@400..900&family=Sigmar&display=swap" rel="stylesheet">
     
-    <!-- Favicon -->
     <link rel="icon" href="Favicon.png" type="image/png" sizes="16x16">
-    
+
     <style>
         /* General Reset */
         * {
@@ -36,7 +33,7 @@
             position: relative;
         }
 
-        /* Background Video */
+        /* Default Background Video (for Desktop) */
         .background-video {
             position: absolute;
             top: 0;
@@ -46,8 +43,39 @@
             object-fit: cover;
             z-index: -1;
             border: none;
-            pointer-events: none; /* Prevent interaction with the video */
-            background: transparent; /* To ensure nothing else blocks the video */
+        }
+
+        /* Mobile-specific dark gray background */
+        .background-mobile {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #333;  /* Dark gray background */
+            z-index: -1;
+        }
+
+        /* Desktop-specific background video */
+        @media only screen and (min-width: 768px) {
+            .background-mobile {
+                display: none; /* Hide mobile background on desktop */
+            }
+
+            .background-video {
+                display: block; /* Show video on desktop */
+            }
+        }
+
+        /* Mobile-specific dark gray background */
+        @media only screen and (max-width: 767px) {
+            .background-video {
+                display: none; /* Hide video on mobile */
+            }
+
+            .background-mobile {
+                display: block; /* Show dark gray background on mobile */
+            }
         }
 
         /* Profile Picture */
@@ -165,11 +193,14 @@
     </style>
 </head>
 <body>
-    <!-- Background Video -->
-    <video class="background-video" autoplay muted loop playsinline disablePictureInPicture>
+    <!-- Background Video (Desktop) -->
+    <video class="background-video" autoplay muted loop>
         <source src="background.mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
+
+    <!-- Mobile Dark Gray Background -->
+    <div class="background-mobile"></div>
 
     <!-- Profile Picture -->
     <img src="pfp.png" alt="Atom's Profile Picture" class="profile-img">
