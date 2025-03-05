@@ -5,13 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Atom's Links</title>
     
+    <!-- Preconnect to Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
+    <!-- Link to Audiowide, Orbitron, and Sigmar fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Orbitron:wght@400..900&family=Sigmar&display=swap" rel="stylesheet">
     
+    <!-- Favicon -->
     <link rel="icon" href="Favicon.png" type="image/png" sizes="16x16">
-
+    
     <style>
         /* General Reset */
         * {
@@ -31,9 +34,10 @@
             flex-direction: column;
             overflow: hidden;
             position: relative;
+            background-color: #333; /* Default dark background for mobile */
         }
 
-        /* Default Background Video (for Desktop) */
+        /* Background Video */
         .background-video {
             position: absolute;
             top: 0;
@@ -44,39 +48,7 @@
             z-index: -1;
             border: none;
             pointer-events: none; /* Prevent interaction with the video */
-        }
-
-        /* Mobile-specific dark gray background */
-        .background-mobile {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #333;  /* Dark gray background */
-            z-index: -1;
-        }
-
-        /* Desktop-specific background video */
-        @media only screen and (min-width: 768px) {
-            .background-mobile {
-                display: none; /* Hide mobile background on desktop */
-            }
-
-            .background-video {
-                display: block; /* Show video on desktop */
-            }
-        }
-
-        /* Mobile-specific dark gray background */
-        @media only screen and (max-width: 767px) {
-            .background-video {
-                display: none; /* Hide video on mobile */
-            }
-
-            .background-mobile {
-                display: block; /* Show dark gray background on mobile */
-            }
+            background: transparent; /* To ensure nothing else blocks the video */
         }
 
         /* Profile Picture */
@@ -85,23 +57,39 @@
             height: 150px;
             border-radius: 50%;
             object-fit: cover;
-            border: 5px solid #fff;
+            border: 3px solid #fff; /* White border */
             margin-bottom: 5px;
-            transform: translateY(40px);
-            opacity: 0;
-            animation: profileIn 1s forwards;
-            box-shadow: 0 0 15px 5px rgba(169, 169, 169, 0.7);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* Default white glow */
+            opacity: 0; /* Start hidden for fade-in */
+            animation: profileFadeIn 1.5s ease-out forwards, profileGlow 3s ease-in-out infinite; /* Combine both animations */
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
+            position: relative;
+            z-index: 2;
         }
 
-        @keyframes profileIn {
-            0% { transform: translateY(40px); opacity: 0; }
-            100% { transform: translateY(0); opacity: 1; }
+        /* Fade In Animation */
+        @keyframes profileFadeIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.8); /* Start slightly smaller for a nice effect */
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1); /* Full size when faded in */
+            }
         }
 
+        /* Glow Animation */
+        @keyframes profileGlow {
+            0% { box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(255, 255, 255, 1); }
+            100% { box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); }
+        }
+
+        /* Hover Effect */
         .profile-img:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 25px 10px rgba(169, 169, 169, 1);
+            transform: scale(1.15) rotate(-10deg); /* Zoom and Rotate */
+            box-shadow: 0 0 30px rgba(255, 255, 255, 1); /* Stronger white glow on hover */
         }
 
         /* Name Styling */
@@ -191,17 +179,26 @@
             font-weight: 400;
             font-style: normal;
         }
+
+        /* Mobile-specific styles */
+        @media (max-width: 768px) {
+            body {
+                background-color: #333; /* Dark grey background for mobile */
+            }
+
+            /* Hide the background video on mobile */
+            .background-video {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
-    <!-- Background Video (Desktop) -->
-    <video class="background-video" autoplay muted loop disablePictureInPicture>
+    <!-- Background Video -->
+    <video class="background-video" autoplay muted loop playsinline disablePictureInPicture>
         <source src="background.mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
-
-    <!-- Mobile Dark Gray Background -->
-    <div class="background-mobile"></div>
 
     <!-- Profile Picture -->
     <img src="pfp.png" alt="Atom's Profile Picture" class="profile-img">
